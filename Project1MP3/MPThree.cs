@@ -77,8 +77,8 @@ namespace Project1MP3
         {
             string msg = "";
             msg += $"MP3 Title:\t{SongTitle}";
-            msg += $"\nArtist:\t{Artist}";
-            msg += $"\nRelease Date:\t{ReleaseDate}\tGenre: {Genre}";
+            msg += $"\nArtist:\t   {Artist}";
+            msg += $"\nRelease Date:\t{ReleaseDate}\t     Genre: {Genre}";
             msg += $"\nDownload Cost:\t${CostOfDownload}\t\tFile Size: {FileSize}MBs";
             msg += $"\nSong Playtime:\t{SongPlaytime} minutes\tAlbum Photo: {JPGPath}";
             return msg;
