@@ -17,6 +17,9 @@ using System.Threading.Tasks;
 
 namespace Project1MP3
 {
+    /// <summary>
+    ///List of genres for the current mp3
+    /// </summary>
     public enum Genre
     {
         Rock, //1
