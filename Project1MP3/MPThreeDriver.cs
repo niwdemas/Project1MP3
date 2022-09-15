@@ -146,7 +146,7 @@ public class MPThreeDriver
             }
 
         } while (endProgram == 0);
-        Console.WriteLine($"Thank you {userName} for using my program!");
+        Console.WriteLine($"Thank you {userName} for using my program!"); //Goodbye message
     }
 }
 
