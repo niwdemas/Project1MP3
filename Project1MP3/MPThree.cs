@@ -69,6 +69,19 @@ namespace Project1MP3
             FileSize = fileSize;
             JPGPath = jPGPath;
         }
+
+        public MPThree(MPThree othermpThree)
+        {
+            SongTitle = othermpThree.SongTitle;
+            Artist = othermpThree.Artist;
+            ReleaseDate = othermpThree.ReleaseDate;
+            SongPlaytime = othermpThree.SongPlaytime;
+            Genre = othermpThree.Genre;
+            CostOfDownload = othermpThree.CostOfDownload;
+            FileSize = othermpThree.FileSize;
+            JPGPath = othermpThree.JPGPath;
+        }
+
         /// <summary>
         /// Override of the base ToString statement
         /// </summary>
