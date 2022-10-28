@@ -87,7 +87,8 @@ public class PlaylistDriver
     /// <param name="args"></param>
     public static void Main(string[] args)
     {
-        Console.WriteLine("Welcome to Program.");
+        Console.WriteLine("Welcome to MP3 Tracker!.");
+        Console.WriteLine();
 
 
 
@@ -104,13 +105,27 @@ public class PlaylistDriver
             do
             {
 
-                Console.WriteLine("Menu options"); //Displays options
-                Console.Write("Choice: ");
+                Console.WriteLine("\t\tMenu" +
+                    "\n\t\t----" +
+                    "\n\t1.  Create a Playlist" +
+                    "\n\t2.  Create a MP3 and add to Playlist" +
+                    "\n\t3.  Edit an exisiting MP3" +
+                    "\n\t4.  Remove a MP3 from the Playlist" +
+                    "\n\t5.  Display all MP3s on the Playlist" +
+                    "\n\t6.  Find a MP3 based on song title" +
+                    "\n\t7.  Display all MP3s based on genre" +
+                    "\n\t8.  Display all MP3s based on artist" +
+                    "\n\t9.  Sort MP3s based on song title" +
+                    "\n\t10. Sort MP3s based on song release date" +
+                    "\n\t11. Exit"); //Displays options
+
+
+                Console.Write("\tChoice: ");
                 menuValidChoice = int.TryParse(Console.ReadLine(), out userInput);
                 if (!menuValidChoice || userInput > 11 || userInput < 1) //checks if valid input
                 {
                     Console.WriteLine();
-                    Console.WriteLine("Please enter a valid choice! Menu"); //displays if invaild
+                    Console.WriteLine("Please enter a valid choice!"); //displays if invaild
                     Console.WriteLine();
                 }
 
@@ -124,13 +139,13 @@ public class PlaylistDriver
                 #region Creating Playlist
                 case 1: //User selects to create a new playlist
 
-                    Console.WriteLine("Ask for user's name");
+                    Console.Write("What is your name: ");
                     string userName = Console.ReadLine();
 
-                    Console.WriteLine("Ask for what to call playlist");
+                    Console.Write("Name of the playlist: ");
                     string playlistName = Console.ReadLine();
 
-                    DateTime date = DateTime.Today;
+                    DateTime date = DateTime.Today; //uses the systems date/time get function
                     string playlistDate = date.ToString("MM/dd/yyyy");
 
 
@@ -141,10 +156,12 @@ public class PlaylistDriver
 
                 #region Creating a MP3 and adding to Playlist
                 case 2:
-                    //MPThree userMPThree = CreateMPThree(); //create mp3
-                    //playlist.AddMPThree(userMPThree); //add mp3 to the playlist
-                    MPThree mPThree = new MPThree();
-                    playlist.AddMPThree(mPThree);
+                    MPThree userMPThree = CreateMPThree(); //create mp3
+                    playlist.AddMPThree(userMPThree); //add mp3 to the playlist
+                    //MPThree mPThree = new MPThree("Sudden Urge", "Rise Against", "2021", 3.46, Genre.Rock, 1.29M, 2.7, "albums/riseagainst/nowheregeneration.jpg");
+                    //MPThree mPThree2 = new MPThree("Blinding Lights", "The Weekend", "2020", 3.20, Genre.Pop, 1.29M, 2.7, "albums/theweekend/afterhours.jpg");
+                    //playlist.AddMPThree(mPThree);
+                    //playlist.AddMPThree(mPThree2);
                     break;
                 #endregion
 
@@ -169,13 +186,14 @@ public class PlaylistDriver
                         if (!removalValidChoice || removalChoice > playlist.Length() || removalChoice < 1) //checks if valid input
                         {
                             Console.WriteLine();
-                            Console.WriteLine("Please enter a valid choice! remove"); //displays if invaild
+                            Console.WriteLine("Please enter a valid choice!"); //displays if invaild
                             Console.WriteLine();
                         }
                     } while (!removalValidChoice);
                     #endregion
 
-                    Console.WriteLine($"Removing {playlist.}");
+                    Console.WriteLine($"Removing {playlist.GetSongTitle(removalChoice)} from {playlist.NameOfPlaylist}."); 
+                    playlist.RemoveMP3(removalChoice); //removes mp3 at specified index
 
                     break;
                 #endregion
@@ -188,16 +206,55 @@ public class PlaylistDriver
 
                 #region Finding a MP3 on the Playlist by song title
                 case 6:
+                    Console.WriteLine("What is the title you would like to search?");
+
+                    Console.Write("Title: ");
+                    string userTitle = Console.ReadLine();
+
+                    Console.WriteLine(playlist.TitleSearch(userTitle));
                     break;
                 #endregion
 
                 #region Display all MP3s based on genre
                 case 7:
+
+                    Console.Write("Please select a genre from this list" + //stolen from MPThreeCreate
+                        "\n\t1. Rock" +
+                        "\n\t2. Pop" +
+                        "\n\t3. Jazz" +
+                        "\n\t4. Country" +
+                        "\n\t5. Classical" +
+                        "\n\t6. Other" +
+                        "\n\tChoice: ");
+                    int genreChoice = 0;
+                    int doWhileValid = 0;
+                    bool valid = int.TryParse(Console.ReadLine(), out genreChoice); //Validation for specified input, outputs to genreChoice
+                    do
+                    {
+                        if (!valid || genreChoice > 6 || genreChoice < 1) //checks if the user input is anything but the allowed input
+                        {
+                            Console.Write("Please enter a number 1 - 6: ");
+                            valid = int.TryParse(Console.ReadLine(), out genreChoice);
+                        }
+                        else
+                        {
+                            doWhileValid++; //Breaks out of while loop if input is valid
+                        }
+                    } while (doWhileValid == 0);
+                    Genre userGenre = (Genre)Enum.GetValues(typeof(Genre)).GetValue(genreChoice - 1);
+
+                    Console.WriteLine(playlist.GenreFind(userGenre));
                     break;
                 #endregion
 
                 #region Display all MP3s based on artist
                 case 8:
+                    Console.WriteLine("What is the artist you would like to search?");
+
+                    Console.Write("Artist: ");
+                    string userArtist = Console.ReadLine();
+
+                    Console.WriteLine(playlist.ArtistFind(userArtist));
                     break;
                 #endregion
 

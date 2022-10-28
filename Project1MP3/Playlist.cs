@@ -37,6 +37,7 @@ namespace Project1MP3
             NameOfPlaylist = "N/A";
             DateCreated = "N/A";
         }
+
         /// <summary>
         /// paramaterized constructor
         /// </summary>
@@ -51,6 +52,7 @@ namespace Project1MP3
             NameOfCreator = nameOfCreator;
             DateCreated = dateCreated;
         }
+
         /// <summary>
         /// copy constructor
         /// </summary>
@@ -73,6 +75,7 @@ namespace Project1MP3
             NameOfCreator = otherPlaylist.NameOfCreator;
             DateCreated = otherPlaylist.DateCreated;
         }
+
         /// <summary>
         /// Adds a mp3 file to the list
         /// </summary>
@@ -82,6 +85,7 @@ namespace Project1MP3
             MPThreeList.Add(mpThree);
             Console.WriteLine($"{mpThree.SongTitle} added to {NameOfPlaylist}");
         }
+
         /// <summary>
         /// adds all mp3s in the playlist to a string
         /// </summary>
@@ -110,7 +114,6 @@ namespace Project1MP3
             return MPThreeList.Count;
         }
 
-
         /// <summary>
         /// removes mp3 at the selected int
         /// </summary>
@@ -120,17 +123,115 @@ namespace Project1MP3
             MPThreeList.RemoveAt(choice - 1); // -1 to account for computer counting
         }
 
-
         /// <summary>
         /// returns a string of the song title
         /// </summary>
         /// <param name="choice">user inputed integer from driver</param>
         /// <returns></returns>
-        public string getSongTitle(int choice)
+        public string GetSongTitle(int choice)
         {
             string title = MPThreeList[choice - 1].SongTitle; // -1 to account for computer counting
 
             return title;
+        }
+
+        /// <summary>
+        /// returns songs based on song title
+        /// </summary>
+        /// <param name="inputTitle">user inputed string from driver</param>
+        /// <returns>returns formatted string</returns>
+        public string TitleSearch(string inputTitle)
+        {
+            string msg = "";
+            int i = 0;
+
+            foreach(var mp3 in MPThreeList)
+            {
+                if (mp3.SongTitle == inputTitle)
+                {
+                    msg += ("\n--------------------"); //entry add
+                    msg += $"\n{mp3}";
+                    msg += "\n--------------------";
+                    i++;
+                }
+            }
+
+            if (i > 0)
+            {
+                msg += $"\nFound {i} songs with that title!";
+            }
+            else
+            {
+                msg += "\nCouldn't find any songs with that title!";
+            }
+
+            return msg;
+        }
+
+        /// <summary>
+        /// Displays all of a specific genre
+        /// </summary>
+        /// <param name="userGenre">user inputed genre from the driver</param>
+        /// <returns>returns formatted string with all the songs listed</returns>
+        public string GenreFind(Genre userGenre)
+        {
+            string msg = "";
+            int i = 0;
+
+            foreach (var mp3 in MPThreeList)
+            {
+                if (mp3.Genre == userGenre)
+                {
+                    msg += ("\n--------------------"); //entry add
+                    msg += $"\n{mp3}";
+                    msg += "\n--------------------";
+                    i++;
+                }
+            }
+
+            if (i > 0)
+            {
+                msg += $"\nFound {i} songs with that genre!";
+            }
+            else
+            {
+                msg += "\nCouldn't find any songs with that genre!";
+            }
+
+            return msg;
+        }
+
+        /// <summary>
+        /// Display all of a specific artist
+        /// </summary>
+        /// <param name="userArtist">user inputted string from the driver</param>
+        /// <returns>formatted string with the list of songs</returns>
+        public string ArtistFind(string userArtist)
+        {
+            string msg = "";
+            int i = 0;
+
+            foreach (var mp3 in MPThreeList)
+            {
+                if (mp3.Artist == userArtist)
+                {
+                    msg += ("\n--------------------"); //entry add
+                    msg += $"\n{mp3}";
+                    msg += "\n--------------------";
+                    i++;
+                }
+            }
+
+            if (i > 0)
+            {
+                msg += $"\nFound {i} songs by that artist!";
+            }
+            else
+            {
+                msg += "\nCouldn't find any songs by that artist!";
+            }
+
+            return msg;
         }
 
         /// <summary>
@@ -141,11 +242,7 @@ namespace Project1MP3
         {
             string msg = "";
             msg += $"{NameOfPlaylist}|{NameOfCreator}|{DateCreated}";
-            for (int i = 0; i < MPThreeList.Count; i++)
-            {
-                MPThree mpThree = MPThreeList.ElementAt(i);
-                Console.WriteLine($"{mpThree.SongTitle}|{mpThree.Artist}|{mpThree.SongPlaytime}");
-            }
+            msg += DisplayMP3s();
             return msg;
         }
     }
