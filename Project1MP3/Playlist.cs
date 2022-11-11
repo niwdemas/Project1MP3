@@ -80,10 +80,13 @@ namespace Project1MP3
         /// Adds a mp3 file to the list
         /// </summary>
         /// <param name="mpThree">mp3 file to be added</param>
-        public void AddMPThree(MPThree mpThree)
+        public string AddMPThree(MPThree mpThree)
         {
+            string msg = "";
             MPThreeList.Add(mpThree);
-            Console.WriteLine($"{mpThree.SongTitle} added to {NameOfPlaylist}");
+            msg = $"{mpThree.SongTitle} added to {NameOfPlaylist}"; //updated to return string instead of print intantly
+            return msg;
+
         }
 
         /// <summary>
@@ -118,16 +121,19 @@ namespace Project1MP3
         /// removes mp3 at the selected int
         /// </summary>
         /// <param name="choice">user inputed integer from driver</param>
-        public void RemoveMP3(int choice)
+        public string RemoveMP3(int choice)
         {
+            string msg = "";
+            msg = $"{MPThreeList[choice - 1].SongTitle} removed from {NameOfPlaylist}"; //updated to return string instead of print intantly          
             MPThreeList.RemoveAt(choice - 1); // -1 to account for computer counting
+            return msg;
         }
 
         /// <summary>
         /// returns a string of the song title
         /// </summary>
         /// <param name="choice">user inputed integer from driver</param>
-        /// <returns></returns>
+        /// <returns>string with the title</returns>
         public string GetSongTitle(int choice)
         {
             string title = MPThreeList[choice - 1].SongTitle; // -1 to account for computer counting

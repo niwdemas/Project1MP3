@@ -70,6 +70,10 @@ namespace Project1MP3
             JPGPath = jPGPath;
         }
 
+        /// <summary>
+        /// copy constructor
+        /// </summary>
+        /// <param name="othermpThree">MPThree to copy</param>
         public MPThree(MPThree othermpThree)
         {
             SongTitle = othermpThree.SongTitle;

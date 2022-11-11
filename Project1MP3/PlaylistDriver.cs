@@ -63,7 +63,7 @@ public class PlaylistDriver
                 doWhileValid++; //Breaks out of while loop if input is valid
             }
         } while (doWhileValid == 0);
-        Genre genre = (Genre)Enum.GetValues(typeof(Genre)).GetValue(genreChoice);
+        Genre genre = (Genre)Enum.GetValues(typeof(Genre)).GetValue(genreChoice - 1);
 
         Console.Write("Please write the cost of the song in decimal form: "); //Song Cost I/O
         decimal costOfDownload = Convert.ToDecimal(Console.ReadLine());
@@ -96,6 +96,7 @@ public class PlaylistDriver
         bool menuValidChoice = false;
         Playlist playlist = new Playlist();
         int endMenu = 0;
+        int madePlaylist = 0;
 
 
         do
@@ -138,30 +139,46 @@ public class PlaylistDriver
             {
                 #region Creating Playlist
                 case 1: //User selects to create a new playlist
+                    if (madePlaylist == 0)
+                    {
+                        Console.Write("What is your name: ");
+                        string userName = Console.ReadLine();
 
-                    Console.Write("What is your name: ");
-                    string userName = Console.ReadLine();
+                        Console.Write("Name of the playlist: ");
+                        string playlistName = Console.ReadLine();
 
-                    Console.Write("Name of the playlist: ");
-                    string playlistName = Console.ReadLine();
-
-                    DateTime date = DateTime.Today; //uses the systems date/time get function
-                    string playlistDate = date.ToString("MM/dd/yyyy");
+                        DateTime date = DateTime.Today; //uses the systems date/time get function
+                        string playlistDate = date.ToString("MM/dd/yyyy");
 
 
-                    playlist = new Playlist(playlistName, userName, playlistDate);
+                        playlist = new Playlist(playlistName, userName, playlistDate);
+
+                        madePlaylist++;
+                    }
+                    else
+                    {
+                        Console.WriteLine("You've already made a playlist!");
+                    }
 
                     break;
                 #endregion
 
                 #region Creating a MP3 and adding to Playlist
                 case 2:
-                    MPThree userMPThree = CreateMPThree(); //create mp3
-                    playlist.AddMPThree(userMPThree); //add mp3 to the playlist
-                    //MPThree mPThree = new MPThree("Sudden Urge", "Rise Against", "2021", 3.46, Genre.Rock, 1.29M, 2.7, "albums/riseagainst/nowheregeneration.jpg");
-                    //MPThree mPThree2 = new MPThree("Blinding Lights", "The Weekend", "2020", 3.20, Genre.Pop, 1.29M, 2.7, "albums/theweekend/afterhours.jpg");
-                    //playlist.AddMPThree(mPThree);
-                    //playlist.AddMPThree(mPThree2);
+                    if (madePlaylist == 1) //checks if a playlist has been made
+                    {
+
+                        MPThree userMPThree = CreateMPThree(); //create mp3
+                        Console.WriteLine(playlist.AddMPThree(userMPThree)); //add mp3 to the playlist
+                                                                             //MPThree mPThree = new MPThree("Sudden Urge", "Rise Against", "2021", 3.46, Genre.Rock, 1.29M, 2.7, "albums/riseagainst/nowheregeneration.jpg");
+                                                                             //MPThree mPThree2 = new MPThree("Blinding Lights", "The Weekend", "2020", 3.20, Genre.Pop, 1.29M, 2.7, "albums/theweekend/afterhours.jpg");
+                                                                             //playlist.AddMPThree(mPThree);
+                                                                             //playlist.AddMPThree(mPThree2);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Please make a playlist first!");
+                    }
                     break;
                 #endregion
 
@@ -173,52 +190,73 @@ public class PlaylistDriver
 
                 #region Dropping an exisiting MP3 from the Playlist
                 case 4:
-                    Console.WriteLine(playlist.DisplayMP3s());
-                    int removalChoice = 0;
-
-                    #region Song Removal Verification
-                    bool removalValidChoice = false;
-                    do
+                    if (madePlaylist == 1) //checks if a playlist has been made
                     {
-                        Console.Write("Type the number of the song to remove: ");
-                        
-                        removalValidChoice = int.TryParse(Console.ReadLine(), out removalChoice);
-                        if (!removalValidChoice || removalChoice > playlist.Length() || removalChoice < 1) //checks if valid input
+                        Console.WriteLine(playlist.DisplayMP3s());
+                        int removalChoice = 0;
+
+                        #region Song Removal Verification
+                        bool removalValidChoice = false;
+                        do
                         {
-                            Console.WriteLine();
-                            Console.WriteLine("Please enter a valid choice!"); //displays if invaild
-                            Console.WriteLine();
-                        }
-                    } while (!removalValidChoice);
-                    #endregion
+                            Console.Write("Type the number of the song to remove: ");
 
-                    Console.WriteLine($"Removing {playlist.GetSongTitle(removalChoice)} from {playlist.NameOfPlaylist}."); 
-                    playlist.RemoveMP3(removalChoice); //removes mp3 at specified index
+                            removalValidChoice = int.TryParse(Console.ReadLine(), out removalChoice);
+                            if (!removalValidChoice || removalChoice > playlist.Length() || removalChoice < 1) //checks if valid input
+                            {
+                                Console.WriteLine();
+                                Console.WriteLine("Please enter a valid choice!"); //displays if invaild
+                                Console.WriteLine();
+                            }
+                        } while (!removalValidChoice);
+                        #endregion
 
+                        Console.WriteLine($"Removing {playlist.GetSongTitle(removalChoice)} from {playlist.NameOfPlaylist}.");
+                        Console.WriteLine(playlist.RemoveMP3(removalChoice)); //removes mp3 at specified index
+                    }
+                    else
+                    {
+                        Console.WriteLine("Please make a playlist first!");
+                    }
                     break;
                 #endregion
 
                 #region Displaying all MP3s on the Playlist
                 case 5:
-                    Console.WriteLine(playlist.DisplayMP3s());
+                    if (madePlaylist == 1) //checks if a playlist has been made
+                    {
+                        Console.WriteLine(playlist.DisplayMP3s());
+                    }
+                    else
+                    {
+                        Console.WriteLine("Please make a playlist first!");
+                    }
                     break;
                 #endregion
 
                 #region Finding a MP3 on the Playlist by song title
                 case 6:
-                    Console.WriteLine("What is the title you would like to search?");
+                    if (madePlaylist == 1) //checks if a playlist has been made
+                    {
+                        Console.WriteLine("What is the title you would like to search?");
 
-                    Console.Write("Title: ");
-                    string userTitle = Console.ReadLine();
+                        Console.Write("Title: ");
+                        string userTitle = Console.ReadLine();
 
-                    Console.WriteLine(playlist.TitleSearch(userTitle));
+                        Console.WriteLine(playlist.TitleSearch(userTitle));
+                    }
+                    else
+                    {
+                        Console.WriteLine("Please make a playlist first!");
+                    }
                     break;
                 #endregion
 
                 #region Display all MP3s based on genre
                 case 7:
-
-                    Console.Write("Please select a genre from this list" + //stolen from MPThreeCreate
+                    if (madePlaylist == 1) //checks if a playlist has been made
+                    {
+                        Console.Write("Please select a genre from this list" + //stolen from MPThreeCreate
                         "\n\t1. Rock" +
                         "\n\t2. Pop" +
                         "\n\t3. Jazz" +
@@ -226,35 +264,47 @@ public class PlaylistDriver
                         "\n\t5. Classical" +
                         "\n\t6. Other" +
                         "\n\tChoice: ");
-                    int genreChoice = 0;
-                    int doWhileValid = 0;
-                    bool valid = int.TryParse(Console.ReadLine(), out genreChoice); //Validation for specified input, outputs to genreChoice
-                    do
-                    {
-                        if (!valid || genreChoice > 6 || genreChoice < 1) //checks if the user input is anything but the allowed input
+                        int genreChoice = 0;
+                        int doWhileValid = 0;
+                        bool valid = int.TryParse(Console.ReadLine(), out genreChoice); //Validation for specified input, outputs to genreChoice
+                        do
                         {
-                            Console.Write("Please enter a number 1 - 6: ");
-                            valid = int.TryParse(Console.ReadLine(), out genreChoice);
-                        }
-                        else
-                        {
-                            doWhileValid++; //Breaks out of while loop if input is valid
-                        }
-                    } while (doWhileValid == 0);
-                    Genre userGenre = (Genre)Enum.GetValues(typeof(Genre)).GetValue(genreChoice - 1);
+                            if (!valid || genreChoice > 6 || genreChoice < 1) //checks if the user input is anything but the allowed input
+                            {
+                                Console.Write("Please enter a number 1 - 6: ");
+                                valid = int.TryParse(Console.ReadLine(), out genreChoice);
+                            }
+                            else
+                            {
+                                doWhileValid++; //Breaks out of while loop if input is valid
+                            }
+                        } while (doWhileValid == 0);
+                        Genre userGenre = (Genre)Enum.GetValues(typeof(Genre)).GetValue(genreChoice - 1);
 
-                    Console.WriteLine(playlist.GenreFind(userGenre));
+                        Console.WriteLine(playlist.GenreFind(userGenre));
+                    }
+                    else
+                    {
+                        Console.WriteLine("Please make a playlist first!");
+                    }
                     break;
                 #endregion
 
                 #region Display all MP3s based on artist
                 case 8:
-                    Console.WriteLine("What is the artist you would like to search?");
+                    if (madePlaylist == 1) //checks if a playlist has been made
+                    {
+                        Console.WriteLine("What is the artist you would like to search?");
 
-                    Console.Write("Artist: ");
-                    string userArtist = Console.ReadLine();
+                        Console.Write("Artist: ");
+                        string userArtist = Console.ReadLine();
 
-                    Console.WriteLine(playlist.ArtistFind(userArtist));
+                        Console.WriteLine(playlist.ArtistFind(userArtist));
+                    }
+                    else
+                    {
+                        Console.WriteLine("Please make a playlist first!");
+                    }
                     break;
                 #endregion
 
