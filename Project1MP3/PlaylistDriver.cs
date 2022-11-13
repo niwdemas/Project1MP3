@@ -79,8 +79,6 @@ public class PlaylistDriver
     }
     #endregion
 
-
-
     /// <summary>
     /// Main Method of the playlist project
     /// </summary>
@@ -118,12 +116,14 @@ public class PlaylistDriver
                     "\n\t8.  Display all MP3s based on artist" +
                     "\n\t9.  Sort MP3s based on song title" +
                     "\n\t10. Sort MP3s based on song release date" +
-                    "\n\t11. Exit"); //Displays options
+                    "\n\t11. Populate playlist from file" +
+                    "\n\t12. Save playlist to file" +
+                    "\n\t13. Exit"); //Displays options
 
 
                 Console.Write("\tChoice: ");
                 menuValidChoice = int.TryParse(Console.ReadLine(), out userInput);
-                if (!menuValidChoice || userInput > 11 || userInput < 1) //checks if valid input
+                if (!menuValidChoice || userInput > 13 || userInput < 1) //checks if valid input
                 {
                     Console.WriteLine();
                     Console.WriteLine("Please enter a valid choice!"); //displays if invaild
@@ -133,6 +133,8 @@ public class PlaylistDriver
             } while (!menuValidChoice); //runs while invalid
 
             #endregion
+
+
 
             #region Switch Case for Menu
             switch (userInput)
@@ -153,11 +155,12 @@ public class PlaylistDriver
 
                         playlist = new Playlist(playlistName, userName, playlistDate);
 
+
                         madePlaylist++;
                     }
                     else
                     {
-                        Console.WriteLine("You've already made a playlist!");
+                        Console.WriteLine("You've already made a playlist! Please save it to make another one!");
                     }
 
                     break;
@@ -315,14 +318,58 @@ public class PlaylistDriver
 
                 #region Sort MP3s by song release date
                 case 10:
+
+                    break;
+                #endregion
+
+                #region Populate the playlist from a file
+                case 11:
+                    Console.WriteLine("Please input the file path to your playlist.");
+                    
+                    
+                    string userPathRead = Console.ReadLine();
+
+
+                    playlist.FillFromFile(userPathRead);
+
+                    madePlaylist = 1;
+                    break;
+                #endregion
+
+                #region Save playlist to a file
+                case 12:
+                    if(madePlaylist == 1)
+                    {
+                        Console.WriteLine("Please input the file path you want your playlist to be saved at.");
+
+
+                        string userPathSave = Console.ReadLine();
+
+
+                        playlist.SaveToFile(userPathSave);
+
+                        madePlaylist = 0;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Please make a playlist first!");
+                    }
                     break;
                 #endregion
 
                 #region End the program
-                case 11:
-                    Console.WriteLine("Thank you for using MP3 Tracker!");
-                    endMenu++; 
-                    break;
+                case 13:
+                    if (playlist.SaveNeeded)
+                    {
+                        Console.WriteLine("You have unsaved changes to you playlist. Please save to file before ending the program.");
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Thank you for using MP3 Tracker!");
+                        endMenu++;
+                        break;
+                    }                    
                     #endregion
             }
             #endregion

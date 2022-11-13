@@ -1,0 +1,11 @@
+﻿Sam's Playlist|Sam|11/11/2022
+Sudden Urge|Rise Against|2021|3.46|Rock|1.29|2.7|albums/riseagainst/nowheregeneration.jpg
+Nowhere Generation|Rise Against|2021|3.52|Rock|1.29|2.9|albums/riseagainst/nowheregeneration.jpg
+The Numbers|Rise Against|2021|4.59|Rock|1.29|3.6|albums/riseagainst/nowheregeneration.jpg
+Blinding Lights|The Weekend|2020|3.20|Pop|1.29|2.5|albums/theweekend/afterhours.jpg
+Older Than the Universe|Andrew Prahlow|2022|6.13|Other|0.99|5.6|albums/outerwildsost/echoesoftheeyede.jpg
+Hearth's Shadow|Andrew Prahlow|2022|4.34|Other|0.99|3.4|albums/outerwildsost/echoesoftheeyede.jpg
+The Spirit of Water|Andrew Prahlow|2022|4.22|Other|0.99|3.3|albums/outerwildsost/echoesoftheeyede.jpg
+Lost Signal|Andrew Prahlow|2022|6.33|Other|0.99|5.7|albums/outerwildsost/echoesoftheeyede.jpg
+River's End Times|Andrew Prahlow|2022|7.49|Other|0.99|6.0|albums/outerwildsost/echoesoftheeyede.jpg
+Last Dream of Home|Andrew Prahlow|2022|7.15|Other|0.99|5.9|albums/outerwildsost/echoesoftheeyede.jpg

@@ -26,6 +26,7 @@ namespace Project1MP3
         public string NameOfPlaylist { get; set; }
         public string NameOfCreator { get; set; }
         public string DateCreated { get; set; }
+        public bool SaveNeeded { get; set; }    
         
         /// <summary>
         /// default constructor
@@ -82,6 +83,7 @@ namespace Project1MP3
         /// <param name="mpThree">mp3 file to be added</param>
         public string AddMPThree(MPThree mpThree)
         {
+            SaveNeeded = true;
             string msg = "";
             MPThreeList.Add(mpThree);
             msg = $"{mpThree.SongTitle} added to {NameOfPlaylist}"; //updated to return string instead of print intantly
@@ -123,6 +125,7 @@ namespace Project1MP3
         /// <param name="choice">user inputed integer from driver</param>
         public string RemoveMP3(int choice)
         {
+            SaveNeeded = true;
             string msg = "";
             msg = $"{MPThreeList[choice - 1].SongTitle} removed from {NameOfPlaylist}"; //updated to return string instead of print intantly          
             MPThreeList.RemoveAt(choice - 1); // -1 to account for computer counting
@@ -238,6 +241,93 @@ namespace Project1MP3
             }
 
             return msg;
+        }
+
+        /// <summary>
+        /// method takes a string parameter representing the file path of an existing text file from which the
+        /// method should populate the Playlis
+        /// </summary>
+        /// <param name="path">file path of the existing text file</param>
+        public void FillFromFile(string path)
+        {
+            int lineNum = 0;
+            Playlist playlist = new Playlist();
+
+            // get info from file
+            StreamReader reader = new StreamReader(path);
+
+            try
+            {
+
+
+                
+                while (reader.Peek() != -1)
+                {
+                    string ln = reader.ReadLine();
+                    string[] input = ln.Split("|");
+                    if (lineNum == 0)
+                    {
+                        NameOfPlaylist = input[0];
+                        NameOfCreator = input[1];
+                        DateCreated = input[2];
+                    }
+                    else
+                    {
+                        Genre genre = (Genre)Enum.Parse(typeof(Genre), input[4], true);
+
+                        MPThree mp3 = new MPThree(input[0], input[1], input[2], Convert.ToDouble(input[3]), genre, Convert.ToDecimal(input[5]), Convert.ToDouble(input[6]), input[7]);
+
+                        MPThreeList.Add(mp3);
+                    }
+                    lineNum++;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Failed to read from the path, please try again.");
+            }
+            finally
+            {
+                if(reader != null)
+                    reader.Close();
+            }
+        }
+
+        /// <summary>
+        ///  method takes a string parameter representing the text file name and path where the Playlist
+        /// information is to be saved, replacing anything currently in that file
+        /// </summary>
+        /// <param name="path">file path of the existing text file</param>
+        public void SaveToFile(string path)
+        {
+            SaveNeeded = false;
+            StreamWriter writer = new StreamWriter(path);
+            try
+            {
+                writer.WriteLine($"{NameOfPlaylist}|{NameOfCreator}|{DateCreated}");
+                for (int i = 0; i < MPThreeList.Count; i++)
+                {
+                    writer.WriteLine($"{MPThreeList[i].SongTitle}|{MPThreeList[i].Artist}|{MPThreeList[i].ReleaseDate}|{MPThreeList[i].SongPlaytime}|{MPThreeList[i].Genre}|{MPThreeList[i].CostOfDownload}|{MPThreeList[i].FileSize}|{MPThreeList[i].JPGPath}");
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Failed to write to path, please try again.");
+            }
+            finally
+            {
+                if (writer != null)
+                    writer.Close();
+            }
+
+
+
+
+            ///write playlist to first line
+            ///write mp3 separated by |
+            ///save file to ../../../PLaylistData/Songs.txt
+            ///
+            ///
         }
 
         /// <summary>
